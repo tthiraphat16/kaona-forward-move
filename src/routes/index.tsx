@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { Reveal, CountUp } from "@/components/Reveal";
 import { featuredPolicies, POLICY_COUNT } from "@/data/policies";
+import { BallotBadge } from "@/components/BallotBadge";
 import logo from "@/assets/kaona-logo.png.asset.json";
 
 const TITLE = "พรรคก้าวหน้า | KAONA PARTY";
@@ -80,6 +81,12 @@ function Hero() {
             <br />
             ปีการศึกษา 2569
           </p>
+        </Reveal>
+        <Reveal delay={280}>
+          <div className="mt-10">
+            <p className="eyebrow mb-4 text-white/40">เลือกพรรคก้าวหน้า กากบาทที่เบอร์</p>
+            <BallotBadge number="1" />
+          </div>
         </Reveal>
         <Reveal delay={320}>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
