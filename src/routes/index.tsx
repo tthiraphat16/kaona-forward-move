@@ -28,6 +28,8 @@ function Home() {
     <main>
       <Hero />
       <Believe />
+      <LeadersOverview />
+      <LeaderProfiles />
       <About />
       <Vision />
       <PolicyHero />
@@ -37,6 +39,7 @@ function Home() {
     </main>
   );
 }
+
 
 function Hero() {
   return (
