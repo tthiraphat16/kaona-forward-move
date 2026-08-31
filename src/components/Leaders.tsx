@@ -32,7 +32,6 @@ export function LeadersOverview() {
                     alt={`${l.role} ${l.name}`}
                     loading="lazy"
                     className="relative z-10 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-                    style={{ mixBlendMode: "multiply" }}
                   />
                 </div>
                 <div className="bg-primary px-6 py-5 text-primary-foreground">
@@ -90,7 +89,6 @@ function LeaderProfile({ leader: l, dark }: { leader: Leader; dark: boolean }) {
                 alt={`${l.role} ${l.name}`}
                 loading="lazy"
                 className="relative z-10 h-full w-full object-cover object-top"
-                style={{ mixBlendMode: "multiply" }}
               />
             </div>
             <div className="bg-primary px-6 py-5 text-primary-foreground">
