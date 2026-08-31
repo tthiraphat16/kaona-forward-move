@@ -3,6 +3,8 @@ import { ArrowRight, ArrowDown } from "lucide-react";
 import { Reveal, CountUp } from "@/components/Reveal";
 import { featuredPolicies, POLICY_COUNT } from "@/data/policies";
 import { BallotBadge } from "@/components/BallotBadge";
+import { LeadersOverview, LeaderProfiles } from "@/components/Leaders";
+
 import logo from "@/assets/kaona-logo.png.asset.json";
 
 const TITLE = "พรรคก้าวหน้า | KAONA PARTY";
@@ -28,6 +30,8 @@ function Home() {
     <main>
       <Hero />
       <Believe />
+      <LeadersOverview />
+      <LeaderProfiles />
       <About />
       <Vision />
       <PolicyHero />
@@ -37,6 +41,7 @@ function Home() {
     </main>
   );
 }
+
 
 function Hero() {
   return (
