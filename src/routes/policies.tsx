@@ -35,6 +35,7 @@ export const Route = createFileRoute("/policies")({
 function Page() {
   const [active, setActive] = useState<PolicyCategory | "ทั้งหมด">("ทั้งหมด");
   const [selected, setSelected] = useState<Policy | null>(null);
+  const [q, setQ] = useState("");
 
   const counts = useMemo(() => {
     const m = new Map<PolicyCategory, number>();
@@ -42,12 +43,20 @@ function Page() {
     return m;
   }, []);
 
-  const list = useMemo(
-    () => (active === "ทั้งหมด" ? policies : policies.filter((p) => p.categoryTh === active)),
-    [active],
-  );
+  const list = useMemo(() => {
+    const term = q.trim().toLowerCase();
+    return policies.filter(
+      (p) =>
+        (active === "ทั้งหมด" || p.categoryTh === active) &&
+        (term === "" ||
+          `${p.id} ${p.title} ${p.summary} ${p.detail ?? ""} ${p.categoryTh}`
+            .toLowerCase()
+            .includes(term)),
+    );
+  }, [active, q]);
 
   const max = Math.max(...policyCategories.map((c) => counts.get(c) ?? 0), 1);
+
 
   return (
     <main className="min-h-screen bg-ink text-white">
