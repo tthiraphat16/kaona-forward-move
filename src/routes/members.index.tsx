@@ -6,7 +6,7 @@ import { BallotBadge } from "@/components/BallotBadge";
 const TITLE = "สมาชิกพรรค | พรรคก้าวหน้า KAONA PARTY";
 const DESC = "ร่วมเป็นส่วนหนึ่งของพรรคก้าวหน้า ทุกเสียงของนักเรียนคือพลังของพรรค";
 
-export const Route = createFileRoute("/members")({
+export const Route = createFileRoute("/members/")({
   head: () => ({
     meta: [
       { title: TITLE },
