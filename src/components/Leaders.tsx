@@ -50,143 +50,110 @@ export function LeadersOverview() {
 export function LeaderProfiles() {
   return (
     <>
-      {leaders.map((l, i) => (
-        <LeaderProfile key={l.slug} leader={l} dark={i % 2 === 0} />
+      {leaders.map((l) => (
+        <LeaderProfile key={l.slug} leader={l} />
       ))}
     </>
   );
 }
 
-function LeaderProfile({ leader: l, dark }: { leader: Leader; dark: boolean }) {
+function LeaderProfile({ leader: l }: { leader: Leader }) {
+  const num = l.order.replace(/^0/, "");
+
   return (
-    <section
-      id={l.slug}
-      className={`relative overflow-hidden scroll-mt-20 px-5 py-24 sm:px-8 sm:py-32 ${
-        dark ? "bg-ink text-white" : "bg-background text-foreground"
-      }`}
-    >
-      <div
-        aria-hidden
-        className={`ghost-number absolute -right-6 top-8 text-[34vw] leading-none sm:text-[18vw] ${
-          dark ? "text-white" : "text-foreground"
-        }`}
-      >
-        {l.order}
+    <section id={l.slug} className="scroll-mt-16 bg-ink text-white">
+      {/* Orange name band */}
+      <div className="bg-primary px-5 py-7 text-center text-primary-foreground sm:px-8 sm:py-9">
+        <Reveal>
+          <p className="text-base font-semibold sm:text-xl">{l.role}</p>
+          <h2 className="display mt-1 text-[8vw] leading-[1.05] sm:text-5xl">{l.name}</h2>
+        </Reveal>
       </div>
 
-      <div className="relative mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[minmax(0,420px)_1fr] lg:gap-20">
-        <Reveal>
-          <div className="lg:sticky lg:top-24">
-            <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-              <span
-                aria-hidden
-                className="display absolute bottom-0 left-1 z-0 text-[16rem] leading-[0.7] text-primary"
-              >
-                {l.order.replace(/^0/, "")}
-              </span>
-              <img
-                src={l.photo}
-                alt={`${l.role} ${l.name}`}
-                loading="lazy"
-                className="relative z-10 h-full w-full object-cover object-top"
-              />
-            </div>
-            <div className="bg-primary px-6 py-5 text-primary-foreground">
-              <p className="eyebrow opacity-80">{l.roleEn}</p>
-              <p className="display mt-2 text-3xl">{l.name}</p>
-              {l.nickname && <p className="mt-2 text-sm opacity-90">ชื่อเล่น {l.nickname}</p>}
-            </div>
-          </div>
-        </Reveal>
-
-        <div className={`space-y-10 ${dark ? "text-white/75" : "text-foreground/75"}`}>
-          <Reveal>
-            <p className="eyebrow text-primary">{l.role}</p>
-            <h2 className={`display mt-3 text-4xl sm:text-5xl ${dark ? "text-white" : ""}`}>
-              ประวัติ
-            </h2>
-          </Reveal>
-
-          <Block dark={dark} title="การศึกษา">
-            <ul className="space-y-3">
-              {l.education.map((e) => (
-                <Li key={e} dark={dark}>
-                  {e}
-                </Li>
-              ))}
-            </ul>
-          </Block>
-
-          {l.awards.length > 0 && (
-            <Block dark={dark} title="ผลงานและรางวัลที่ภาคภูมิใจ">
-              <ul className="space-y-3">
-                {l.awards.map((a) => (
-                  <Li key={a} dark={dark}>
-                    {a}
-                  </Li>
-                ))}
-              </ul>
-            </Block>
-          )}
-
-          {l.motto && (
-            <Block dark={dark} title="คติประจำใจ">
-              <p className="border-l-2 border-primary pl-4 text-lg italic leading-relaxed">
-                {l.motto}
-              </p>
-            </Block>
-          )}
-
-          {l.skills.length > 0 && (
-            <Block dark={dark} title="ความสามารถพิเศษ">
-              <ul className="space-y-3">
-                {l.skills.map((s) => (
-                  <Li key={s} dark={dark}>
-                    {s}
-                  </Li>
-                ))}
-              </ul>
-            </Block>
-          )}
-
-          <Block dark={dark} title="ความคาดหวังต่อพรรคและการเลือกตั้ง">
-            <div className="space-y-4 leading-relaxed">
-              {l.expectation.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-            <p className="mt-6 text-sm font-semibold text-primary">{l.sign}</p>
-          </Block>
+      {/* Portrait with oversized number */}
+      <Reveal>
+        <div className="relative mx-auto flex max-w-[900px] items-end justify-center overflow-hidden px-4 pt-8 sm:pt-12">
+          <span
+            aria-hidden
+            className="display pointer-events-none absolute bottom-0 left-1/2 z-0 -translate-x-[115%] text-[42vw] leading-[0.75] text-primary sm:text-[24rem]"
+          >
+            {num}
+          </span>
+          <img
+            src={l.photo}
+            alt={`${l.role} ${l.name}`}
+            loading="lazy"
+            className="relative z-10 max-h-[70vh] w-auto object-contain"
+          />
         </div>
+      </Reveal>
+
+      <div className="mx-auto max-w-[860px] px-5 pb-24 pt-10 sm:px-8 sm:pb-28">
+        {l.motto && (
+          <Reveal>
+            <p className="text-center text-xl font-semibold leading-relaxed text-primary sm:text-2xl">
+              “ {l.motto.replace(/^[“"]|[”"]$/g, "")} ”
+            </p>
+          </Reveal>
+        )}
+
+        {l.nickname && (
+          <Reveal>
+            <p className="mt-8 text-lg">
+              <span className="font-semibold text-primary">ชื่อเล่น</span>{" "}
+              <span className="text-white/90">{l.nickname}</span>
+            </p>
+          </Reveal>
+        )}
+
+        <Field title="การศึกษา" items={l.education} />
+        {l.awards.length > 0 && <Timeline title="ผลงานและรางวัลที่ภาคภูมิใจ" items={l.awards} />}
+        {l.skills.length > 0 && <Field title="ความสามารถพิเศษ" items={l.skills} />}
+
+        <Reveal>
+          <h3 className="mt-10 text-xl font-bold text-primary sm:text-2xl">
+            ความคาดหวังต่อพรรคและการเลือกตั้ง
+          </h3>
+          <div className="mt-4 space-y-4 text-lg leading-relaxed text-white/80">
+            {l.expectation.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+          <p className="mt-6 text-base font-semibold text-primary">{l.sign}</p>
+        </Reveal>
       </div>
     </section>
   );
 }
 
-function Block({
-  title,
-  children,
-  dark,
-}: {
-  title: string;
-  children: React.ReactNode;
-  dark: boolean;
-}) {
+function Field({ title, items }: { title: string; items: string[] }) {
   return (
     <Reveal>
-      <div className={`border-t pt-6 ${dark ? "border-white/15" : "border-foreground/15"}`}>
-        <h3 className={`eyebrow mb-5 ${dark ? "text-white/50" : "text-foreground/50"}`}>{title}</h3>
-        {children}
-      </div>
+      <h3 className="mt-10 text-xl font-bold text-primary sm:text-2xl">{title}</h3>
+      <ul className="mt-4 space-y-3">
+        {items.map((t) => (
+          <li key={t} className="flex gap-3 text-lg leading-relaxed text-white/80">
+            <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+            <span>{t}</span>
+          </li>
+        ))}
+      </ul>
     </Reveal>
   );
 }
 
-function Li({ children, dark }: { children: React.ReactNode; dark: boolean }) {
+function Timeline({ title, items }: { title: string; items: string[] }) {
   return (
-    <li className="flex gap-3 leading-relaxed">
-      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-      <span className={dark ? "text-white/75" : "text-foreground/75"}>{children}</span>
-    </li>
+    <Reveal>
+      <h3 className="mt-10 text-xl font-bold text-primary sm:text-2xl">{title}</h3>
+      <ol className="relative mt-6 space-y-7 border-l-2 border-primary pl-7">
+        {items.map((t) => (
+          <li key={t} className="relative">
+            <span className="absolute -left-[38px] top-1.5 h-4 w-4 rounded-full bg-primary ring-4 ring-primary/25" />
+            <p className="text-lg leading-relaxed text-white/85">{t}</p>
+          </li>
+        ))}
+      </ol>
+    </Reveal>
   );
 }
