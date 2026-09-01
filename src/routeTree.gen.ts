@@ -13,9 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ActivitiesRouteImport } from './routes/activities'
 import { Route as MediaRouteImport } from './routes/media'
-import { Route as MembersRouteImport } from './routes/members'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as MembersIndexRouteImport } from './routes/members.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -37,11 +37,6 @@ const MediaRoute = MediaRouteImport.update({
   path: '/media',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MembersRoute = MembersRouteImport.update({
-  id: '/members',
-  path: '/members',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PoliciesRoute = PoliciesRouteImport.update({
   id: '/policies',
   path: '/policies',
@@ -52,24 +47,29 @@ const TeamRoute = TeamRouteImport.update({
   path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MembersIndexRoute = MembersIndexRouteImport.update({
+  id: '/members/',
+  path: '/members/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/activities': typeof ActivitiesRoute
   '/media': typeof MediaRoute
-  '/members': typeof MembersRoute
   '/policies': typeof PoliciesRoute
   '/team': typeof TeamRoute
+  '/members/': typeof MembersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/activities': typeof ActivitiesRoute
   '/media': typeof MediaRoute
-  '/members': typeof MembersRoute
   '/policies': typeof PoliciesRoute
   '/team': typeof TeamRoute
+  '/members': typeof MembersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +77,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/activities': typeof ActivitiesRoute
   '/media': typeof MediaRoute
-  '/members': typeof MembersRoute
   '/policies': typeof PoliciesRoute
   '/team': typeof TeamRoute
+  '/members/': typeof MembersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,27 +88,27 @@ export interface FileRouteTypes {
     | '/about'
     | '/activities'
     | '/media'
-    | '/members'
     | '/policies'
     | '/team'
+    | '/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/activities'
     | '/media'
-    | '/members'
     | '/policies'
     | '/team'
+    | '/members'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/activities'
     | '/media'
-    | '/members'
     | '/policies'
     | '/team'
+    | '/members/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -116,9 +116,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ActivitiesRoute: typeof ActivitiesRoute
   MediaRoute: typeof MediaRoute
-  MembersRoute: typeof MembersRoute
   PoliciesRoute: typeof PoliciesRoute
   TeamRoute: typeof TeamRoute
+  MembersIndexRoute: typeof MembersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -151,13 +151,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MediaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/members': {
-      id: '/members'
-      path: '/members'
-      fullPath: '/members'
-      preLoaderRoute: typeof MembersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/policies': {
       id: '/policies'
       path: '/policies'
@@ -172,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/members/': {
+      id: '/members/'
+      path: '/members'
+      fullPath: '/members/'
+      preLoaderRoute: typeof MembersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -180,9 +180,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ActivitiesRoute: ActivitiesRoute,
   MediaRoute: MediaRoute,
-  MembersRoute: MembersRoute,
   PoliciesRoute: PoliciesRoute,
   TeamRoute: TeamRoute,
+  MembersIndexRoute: MembersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
