@@ -1,5 +1,5 @@
 import sittipon from "@/assets/leader-sittipon.jpeg.asset.json";
-import phuwadet from "@/assets/deputy-phuwadet.jpeg.asset.json";
+import phuwadet from "@/assets/deputy-phuwadet-2.png.asset.json";
 import hathaithip from "@/assets/deputy-hathaithip.jpeg.asset.json";
 
 export interface Leader {
