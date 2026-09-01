@@ -35,6 +35,7 @@ export const Route = createFileRoute("/policies")({
 function Page() {
   const [active, setActive] = useState<PolicyCategory | "ทั้งหมด">("ทั้งหมด");
   const [selected, setSelected] = useState<Policy | null>(null);
+  const [q, setQ] = useState("");
 
   const counts = useMemo(() => {
     const m = new Map<PolicyCategory, number>();
@@ -42,12 +43,20 @@ function Page() {
     return m;
   }, []);
 
-  const list = useMemo(
-    () => (active === "ทั้งหมด" ? policies : policies.filter((p) => p.categoryTh === active)),
-    [active],
-  );
+  const list = useMemo(() => {
+    const term = q.trim().toLowerCase();
+    return policies.filter(
+      (p) =>
+        (active === "ทั้งหมด" || p.categoryTh === active) &&
+        (term === "" ||
+          `${p.id} ${p.title} ${p.summary} ${p.detail ?? ""} ${p.categoryTh}`
+            .toLowerCase()
+            .includes(term)),
+    );
+  }, [active, q]);
 
   const max = Math.max(...policyCategories.map((c) => counts.get(c) ?? 0), 1);
+
 
   return (
     <main className="min-h-screen bg-ink text-white">
@@ -211,11 +220,39 @@ function Page() {
                   </h2>
                   <p className="text-sm text-white/45">{list.length} ข้อ</p>
                 </div>
+
+                <div className="mt-4 px-2">
+                  <input
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                    placeholder="ค้นหานโยบาย เช่น น้ำดื่ม, ห้องน้ำ, Wi-Fi"
+                    className="w-full rounded-xl border border-white/15 bg-ink px-4 py-3 text-base text-white outline-none placeholder:text-white/35 focus:border-primary"
+                  />
+                  <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
+                    {(["ทั้งหมด", ...policyCategories] as const).map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => {
+                          setActive(c);
+                          setSelected(null);
+                        }}
+                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                          active === c
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-white/8 text-white/65 hover:text-white"
+                        }`}
+                      >
+                        {c}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <ul className="mt-5 space-y-2">
                   {list.map((p) => (
                     <li key={p.id}>
                       <button
-                        onClick={() => setSelected(p)}
+                        onClick={() => setSelected(selected?.id === p.id ? null : p)}
                         className={`flex w-full items-start gap-4 rounded-xl border px-4 py-4 text-left transition-colors ${
                           selected?.id === p.id
                             ? "border-primary bg-primary/10"
@@ -224,10 +261,15 @@ function Page() {
                       >
                         <span className="display w-10 shrink-0 text-2xl text-primary">{p.id}</span>
                         <span className="min-w-0 flex-1">
-                          <span className="block text-base font-semibold">{p.title}</span>
-                          <span className="mt-1 block text-sm leading-relaxed text-white/55">
+                          <span className="block text-lg font-semibold leading-snug">{p.title}</span>
+                          <span className="mt-1.5 block text-base leading-relaxed text-white/65">
                             {p.summary}
                           </span>
+                          {selected?.id === p.id && p.detail && (
+                            <span className="mt-3 block border-t border-white/10 pt-3 text-base leading-relaxed text-white/75 xl:hidden">
+                              {p.detail}
+                            </span>
+                          )}
                         </span>
                         <span className="hidden shrink-0 rounded-full bg-white/10 px-3 py-1 text-[11px] text-white/60 sm:block">
                           {p.categoryTh}
@@ -235,7 +277,11 @@ function Page() {
                       </button>
                     </li>
                   ))}
+                  {list.length === 0 && (
+                    <li className="px-2 py-8 text-center text-white/50">ไม่พบนโยบายที่ค้นหา</li>
+                  )}
                 </ul>
+
               </section>
             </Reveal>
 
