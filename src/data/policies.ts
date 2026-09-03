@@ -23,7 +23,7 @@ export interface Policy {
   duration: string;
   /** งบประมาณ */
   budget: string;
-  featured?: boolean;
+  featured?: boolean | undefined;
 }
 
 const CAT_EN: Record<PolicyCategory, string> = {
