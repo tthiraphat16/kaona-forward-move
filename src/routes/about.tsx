@@ -100,7 +100,7 @@ function Page() {
               to="/policies"
               className="arrow-move inline-flex items-center gap-2 bg-ink px-7 py-4 text-base font-semibold text-white"
             >
-              ดูนโยบายทั้ง 57 ข้อ <ArrowRight size={18} />
+              ดูดูนโยบายทั้งหมด <ArrowRight size={18} />
             </Link>
           </Reveal>
         </div>

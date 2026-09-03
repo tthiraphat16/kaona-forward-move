@@ -97,7 +97,7 @@ function Hero() {
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Link
               to="/policies"
-              className="arrow-move inline-flex items-center justify-center gap-2 bg-primary px-7 py-4 text-base font-semibold text-primary-foreground transition-colors hover:bg-orange-deep"
+              className="arrow-move inline-flex items-center justify-center gap-2 bg-primary px-7 py-4 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
             >
               สำรวจนโยบาย <ArrowRight size={18} />
             </Link>
