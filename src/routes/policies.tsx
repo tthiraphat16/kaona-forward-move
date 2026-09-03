@@ -1,6 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, LayoutGrid, ListChecks, Target, Users, X } from "lucide-react";
+import {
+  ArrowRight,
+  Banknote,
+  Clock,
+  LayoutGrid,
+  ListChecks,
+  Search,
+  Star,
+  Target,
+  TriangleAlert,
+  Users,
+  X,
+} from "lucide-react";
 import {
   policies,
   policyCategories,
@@ -10,11 +22,9 @@ import {
 } from "@/data/policies";
 import { Reveal } from "@/components/Reveal";
 import { BallotBadge } from "@/components/BallotBadge";
-import logo from "@/assets/kaona-logo.png.asset.json";
 
-const TITLE = "นโยบายทั้ง 57 ข้อ | พรรคก้าวหน้า KAONA PARTY";
-const DESC =
-  "แดชบอร์ดนโยบายพรรคก้าวหน้า 57 ข้อ แยกตามหมวดหมู่ พร้อมรายละเอียดรายนโยบาย สภานักเรียนโรงเรียนเมืองนครศรีธรรมราช 2569";
+const TITLE = `นโยบายทั้ง ${POLICY_COUNT} ข้อ | พรรคก้าวหน้า KAONA PARTY`;
+const DESC = `นโยบายพรรคก้าวหน้า ${POLICY_COUNT} ข้อ แยกตามหมวดหมู่ พร้อมปัญหาที่พบ วิธีทำ ผู้ได้ประโยชน์ ระยะเวลา และงบประมาณ สภานักเรียนโรงเรียนเมืองนครศรีธรรมราช 2569`;
 
 export const Route = createFileRoute("/policies")({
   head: () => ({
@@ -32,10 +42,12 @@ export const Route = createFileRoute("/policies")({
   component: Page,
 });
 
+type Filter = PolicyCategory | "ทั้งหมด" | "นโยบายหลัก";
+
 function Page() {
-  const [active, setActive] = useState<PolicyCategory | "ทั้งหมด">("ทั้งหมด");
-  const [selected, setSelected] = useState<Policy | null>(null);
+  const [active, setActive] = useState<Filter>("ทั้งหมด");
   const [q, setQ] = useState("");
+  const [open, setOpen] = useState<string | null>(null);
 
   const counts = useMemo(() => {
     const m = new Map<PolicyCategory, number>();
@@ -43,313 +55,262 @@ function Page() {
     return m;
   }, []);
 
+  const featuredCount = useMemo(() => policies.filter((p) => p.featured).length, []);
+
   const list = useMemo(() => {
     const term = q.trim().toLowerCase();
-    return policies.filter(
-      (p) =>
-        (active === "ทั้งหมด" || p.categoryTh === active) &&
-        (term === "" ||
-          `${p.id} ${p.title} ${p.summary} ${p.detail ?? ""} ${p.categoryTh}`
-            .toLowerCase()
-            .includes(term)),
-    );
+    return policies.filter((p) => {
+      const inCat =
+        active === "ทั้งหมด"
+          ? true
+          : active === "นโยบายหลัก"
+            ? Boolean(p.featured)
+            : p.categoryTh === active;
+      const hay =
+        `${p.id} ${p.title} ${p.summary} ${p.problem} ${p.how.join(" ")} ${p.categoryTh}`.toLowerCase();
+      return inCat && (term === "" || hay.includes(term));
+    });
   }, [active, q]);
 
-  const max = Math.max(...policyCategories.map((c) => counts.get(c) ?? 0), 1);
-
+  const chips: Filter[] = ["ทั้งหมด", "นโยบายหลัก", ...policyCategories];
 
   return (
     <main className="min-h-screen bg-ink text-white">
-      <div className="mx-auto grid max-w-[1500px] gap-6 px-4 pb-20 pt-24 sm:px-6 lg:grid-cols-[240px_1fr] lg:pt-28">
-        {/* Sidebar */}
-        <aside className="lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <div className="flex items-center gap-3">
-              <img src={logo.url} alt="โลโก้พรรคก้าวหน้า" className="h-9 w-9 object-contain" />
-              <div>
-                <p className="display text-lg leading-none">KAONA</p>
-                <p className="eyebrow mt-1 text-[9px] text-white/45">พรรคก้าวหน้า</p>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-white/10 px-4 pb-12 pt-28 sm:px-6 sm:pb-16 sm:pt-36">
+        <div
+          aria-hidden
+          className="ghost-number pointer-events-none absolute -right-6 top-16 text-[9rem] leading-none text-white sm:text-[18rem]"
+        >
+          {POLICY_COUNT}
+        </div>
+        <div className="relative mx-auto grid max-w-[1400px] gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+          <Reveal>
+            <p className="eyebrow text-primary">Our policies</p>
+            <h1 className="display mt-4 text-[13vw] leading-[0.9] sm:text-6xl lg:text-7xl">
+              <span className="text-primary">{POLICY_COUNT}</span> นโยบาย
+              <br />
+              เพื่อโรงเรียนที่ก้าวหน้า
+            </h1>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/60 sm:text-lg">
+              ทุกข้อมาจากปัญหาจริงของนักเรียน และบอกชัดว่าจะทำอย่างไร ใครได้ประโยชน์
+              ใช้เวลาเท่าไร และใช้งบเท่าไร
+            </p>
+          </Reveal>
+          <Reveal delay={120} className="lg:justify-self-end">
+            <BallotBadge number="1" />
+          </Reveal>
+        </div>
+
+        {/* Stats */}
+        <div className="relative mx-auto mt-12 grid max-w-[1400px] gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: ListChecks, k: `${POLICY_COUNT}`, l: "นโยบายทั้งหมด" },
+            { icon: Star, k: `${featuredCount}`, l: "นโยบายหลัก" },
+            { icon: LayoutGrid, k: `${policyCategories.length}`, l: "หมวดนโยบาย" },
+            { icon: Users, k: "ทุกชั้นปี", l: "กลุ่มที่ได้ประโยชน์" },
+          ].map((s, i) => (
+            <Reveal key={s.l} delay={i * 80}>
+              <div className="h-full rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+                <s.icon size={18} className="text-primary" />
+                <p className="display mt-4 text-3xl sm:text-4xl">{s.k}</p>
+                <p className="mt-2 text-sm text-white/55">{s.l}</p>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Sticky filter bar */}
+      <div className="sticky top-14 z-30 border-b border-white/10 bg-ink/90 backdrop-blur supports-[backdrop-filter]:bg-ink/70">
+        <div className="mx-auto max-w-[1400px] px-4 py-3 sm:px-6">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <div className="relative lg:w-80">
+              <Search
+                size={16}
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/40"
+              />
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="ค้นหานโยบาย เช่น น้ำดื่ม, ห้องน้ำ, Wi-Fi"
+                aria-label="ค้นหานโยบาย"
+                className="w-full rounded-full border border-white/15 bg-white/[0.04] py-3 pl-11 pr-4 text-base text-white outline-none placeholder:text-white/35 focus:border-primary"
+              />
             </div>
-            <nav className="mt-6 space-y-1">
-              {(
-                [
-                  ["ภาพรวมนโยบาย", LayoutGrid, "ทั้งหมด"],
-                  ["นโยบายทั้งหมด", ListChecks, "ทั้งหมด"],
-                ] as const
-              ).map(([label, Icon], i) => (
-                <button
-                  key={label}
-                  onClick={() => {
-                    setActive("ทั้งหมด");
-                    setSelected(null);
-                  }}
-                  className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-                    i === 0 ? "bg-primary text-primary-foreground" : "text-white/60 hover:bg-white/5"
-                  }`}
-                >
-                  <Icon size={16} /> {label}
-                </button>
-              ))}
-            </nav>
-            <div className="mt-6 border-t border-white/10 pt-5">
-              <p className="eyebrow text-white/40">หมวดหมู่</p>
-              <div className="mt-3 space-y-1">
-                {policyCategories.map((c) => (
+            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-1 lg:px-0">
+              {chips.map((c) => {
+                const n =
+                  c === "ทั้งหมด"
+                    ? POLICY_COUNT
+                    : c === "นโยบายหลัก"
+                      ? featuredCount
+                      : (counts.get(c) ?? 0);
+                return (
                   <button
                     key={c}
                     onClick={() => {
                       setActive(c);
-                      setSelected(null);
+                      setOpen(null);
                     }}
-                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors ${
-                      active === c ? "bg-white/10 text-white" : "text-white/55 hover:text-white"
+                    className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                      active === c
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-white/[0.07] text-white/65 hover:text-white"
                     }`}
                   >
-                    <span>{c}</span>
-                    <span className="text-xs text-primary">{counts.get(c) ?? 0}</span>
+                    {c}
+                    <span className="ml-2 opacity-60">{n}</span>
                   </button>
-                ))}
-              </div>
-            </div>
-            <div className="mt-6 hidden lg:block">
-              <p className="eyebrow text-white/40">ก้าวต่อไป</p>
-              <p className="display mt-2 text-2xl text-primary">ไปด้วยกัน</p>
+                );
+              })}
             </div>
           </div>
-        </aside>
-
-        {/* Content */}
-        <div className="space-y-6">
-          {/* Hero card */}
-          <Reveal>
-            <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-7 sm:p-10">
-              <div
-                aria-hidden
-                className="ghost-number absolute -right-4 -top-6 text-[12rem] leading-none text-white"
-              >
-                {POLICY_COUNT}
-              </div>
-              <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-                <div>
-                  <p className="eyebrow text-primary">Our policies</p>
-                  <h1 className="display mt-4 text-5xl leading-[0.95] sm:text-6xl">
-                    <span className="text-primary">{POLICY_COUNT}</span> นโยบาย
-                    <br />
-                    เพื่อโรงเรียนที่ก้าวหน้า
-                  </h1>
-                  <p className="mt-6 max-w-md text-white/60">
-                    เราไม่ได้แค่สัญญา แต่เราวางแผนว่าจะทำอะไร อย่างไร และเพื่อใคร
-                    ทุกนโยบายมาจากปัญหาจริงของนักเรียน
-                  </p>
-                </div>
-                <BallotBadge number="1" className="shrink-0" />
-              </div>
-            </section>
-          </Reveal>
-
-          {/* Stat row */}
-          <div className="grid gap-4 sm:grid-cols-3">
-            {[
-              { icon: ListChecks, k: `${POLICY_COUNT}`, l: "นโยบายทั้งหมด" },
-              { icon: LayoutGrid, k: `${policyCategories.length}`, l: "หมวดนโยบาย" },
-              { icon: Users, k: "ทุกชั้นปี", l: "กลุ่มที่ได้ประโยชน์" },
-            ].map((s, i) => (
-              <Reveal key={s.l} delay={i * 90}>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-                  <s.icon size={18} className="text-primary" />
-                  <p className="display mt-4 text-4xl">{s.k}</p>
-                  <p className="mt-2 text-sm text-white/55">{s.l}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Category breakdown */}
-          <Reveal>
-            <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
-              <div className="flex items-baseline justify-between">
-                <h2 className="display text-2xl">
-                  <span className="text-primary">{policyCategories.length}</span> หมวดนโยบายหลัก
-                </h2>
-                <button
-                  onClick={() => setActive("ทั้งหมด")}
-                  className="arrow-move flex items-center gap-2 text-sm text-white/55 hover:text-white"
-                >
-                  ดูทุกหมวด <ArrowRight size={15} />
-                </button>
-              </div>
-              <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {policyCategories.map((c) => {
-                  const n = counts.get(c) ?? 0;
-                  return (
-                    <button
-                      key={c}
-                      onClick={() => {
-                        setActive(c);
-                        setSelected(null);
-                      }}
-                      className={`rounded-xl border p-5 text-left transition-colors ${
-                        active === c
-                          ? "border-primary bg-primary/10"
-                          : "border-white/10 bg-ink hover:border-white/25"
-                      }`}
-                    >
-                      <p className="text-base font-semibold">{c}</p>
-                      <p className="mt-2 text-sm text-primary">{n} นโยบาย</p>
-                      <span className="mt-4 block h-1.5 w-full rounded-full bg-white/10">
-                        <span
-                          className="block h-1.5 rounded-full bg-primary"
-                          style={{ width: `${Math.round((n / max) * 100)}%` }}
-                        />
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          </Reveal>
-
-          {/* List + detail */}
-          <div className="grid gap-6 xl:grid-cols-[1fr_380px]">
-            <Reveal>
-              <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-6">
-                <div className="flex items-baseline justify-between px-2">
-                  <h2 className="display text-2xl">
-                    {active === "ทั้งหมด" ? "นโยบายทั้งหมด" : active}
-                  </h2>
-                  <p className="text-sm text-white/45">{list.length} ข้อ</p>
-                </div>
-
-                <div className="mt-4 px-2">
-                  <input
-                    value={q}
-                    onChange={(e) => setQ(e.target.value)}
-                    placeholder="ค้นหานโยบาย เช่น น้ำดื่ม, ห้องน้ำ, Wi-Fi"
-                    className="w-full rounded-xl border border-white/15 bg-ink px-4 py-3 text-base text-white outline-none placeholder:text-white/35 focus:border-primary"
-                  />
-                  <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
-                    {(["ทั้งหมด", ...policyCategories] as const).map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => {
-                          setActive(c);
-                          setSelected(null);
-                        }}
-                        className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                          active === c
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-white/8 text-white/65 hover:text-white"
-                        }`}
-                      >
-                        {c}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <ul className="mt-5 space-y-2">
-                  {list.map((p) => (
-                    <li key={p.id}>
-                      <button
-                        onClick={() => setSelected(selected?.id === p.id ? null : p)}
-                        className={`flex w-full items-start gap-4 rounded-xl border px-4 py-4 text-left transition-colors ${
-                          selected?.id === p.id
-                            ? "border-primary bg-primary/10"
-                            : "border-white/10 bg-ink hover:border-white/25"
-                        }`}
-                      >
-                        <span className="display w-10 shrink-0 text-2xl text-primary">{p.id}</span>
-                        <span className="min-w-0 flex-1">
-                          <span className="block text-lg font-semibold leading-snug">{p.title}</span>
-                          <span className="mt-1.5 block text-base leading-relaxed text-white/65">
-                            {p.summary}
-                          </span>
-                          {selected?.id === p.id && p.detail && (
-                            <span className="mt-3 block border-t border-white/10 pt-3 text-base leading-relaxed text-white/75 xl:hidden">
-                              {p.detail}
-                            </span>
-                          )}
-                        </span>
-                        <span className="hidden shrink-0 rounded-full bg-white/10 px-3 py-1 text-[11px] text-white/60 sm:block">
-                          {p.categoryTh}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                  {list.length === 0 && (
-                    <li className="px-2 py-8 text-center text-white/50">ไม่พบนโยบายที่ค้นหา</li>
-                  )}
-                </ul>
-
-              </section>
-            </Reveal>
-
-            {/* Detail panel */}
-            <aside className="xl:sticky xl:top-24 xl:self-start">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-                {selected ? (
-                  <>
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="eyebrow text-primary">{selected.categoryEn}</p>
-                        <p className="display mt-3 text-5xl text-primary">{selected.id}</p>
-                      </div>
-                      <button
-                        onClick={() => setSelected(null)}
-                        aria-label="ปิดรายละเอียด"
-                        className="rounded-full border border-white/15 p-2 text-white/60 hover:text-white"
-                      >
-                        <X size={14} />
-                      </button>
-                    </div>
-                    <h3 className="display mt-4 text-2xl leading-tight">{selected.title}</h3>
-                    <p className="mt-4 text-sm leading-relaxed text-white/65">{selected.summary}</p>
-                    {selected.detail && (
-                      <div className="mt-6 border-t border-white/10 pt-5">
-                        <p className="eyebrow mb-3 flex items-center gap-2 text-white/40">
-                          <Target size={13} /> เราจะทำอะไร
-                        </p>
-                        <p className="text-sm leading-relaxed text-white/65">{selected.detail}</p>
-                      </div>
-                    )}
-                    <div className="mt-6 border-t border-white/10 pt-5">
-                      <p className="eyebrow mb-3 text-white/40">หมวดหมู่</p>
-                      <span className="inline-block rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground">
-                        {selected.categoryTh}
-                      </span>
-                    </div>
-                  </>
-                ) : (
-                  <div className="py-6 text-center">
-                    <ArrowLeft size={18} className="mx-auto text-primary" />
-                    <p className="mt-4 text-sm text-white/55">
-                      เลือกนโยบายจากรายการเพื่อดูรายละเอียดฉบับเต็ม
-                    </p>
-                  </div>
-                )}
-              </div>
-            </aside>
-          </div>
-
-          {/* CTA */}
-          <Reveal>
-            <section className="rounded-2xl bg-primary p-8 text-primary-foreground sm:p-12">
-              <h2 className="display text-4xl leading-[0.95] sm:text-5xl">
-                เห็นด้วยกับนโยบายเรา?
-                <br />
-                กากบาท <span className="text-ink">เบอร์ 1</span>
-              </h2>
-              <a
-                href="/#leaders"
-                className="arrow-move mt-8 inline-flex items-center gap-2 rounded-xl bg-ink px-7 py-4 text-base font-semibold text-white"
-              >
-                รู้จักทีมผู้สมัคร <ArrowRight size={18} />
-              </a>
-            </section>
-          </Reveal>
         </div>
       </div>
+
+      {/* Grid */}
+      <section className="px-4 py-10 pb-24 sm:px-6">
+        <div className="mx-auto max-w-[1400px]">
+          <div className="flex items-baseline justify-between">
+            <h2 className="display text-2xl sm:text-3xl">
+              {active === "ทั้งหมด" ? "นโยบายทั้งหมด" : active}
+            </h2>
+            <p className="text-sm text-white/45">{list.length} ข้อ</p>
+          </div>
+
+          {list.length === 0 ? (
+            <p className="mt-16 text-center text-white/50">ไม่พบนโยบายที่ค้นหา</p>
+          ) : (
+            <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {list.map((p, i) => (
+                <Reveal key={p.id} delay={Math.min(i, 6) * 60} className="h-full">
+                  <PolicyCard
+                    policy={p}
+                    open={open === p.id}
+                    onToggle={() => setOpen(open === p.id ? null : p.id)}
+                  />
+                </Reveal>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </main>
+  );
+}
+
+function PolicyCard({
+  policy: p,
+  open,
+  onToggle,
+}: {
+  policy: Policy;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <article
+      className={`flex h-full flex-col rounded-2xl border bg-white/[0.03] p-5 transition-colors sm:p-6 ${
+        open ? "border-primary bg-primary/[0.08]" : "border-white/10 hover:border-white/25"
+      }`}
+    >
+      <div className="flex items-start gap-4">
+        <span className="display text-3xl leading-none text-primary sm:text-4xl">{p.id}</span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] text-white/65">
+              {p.categoryTh}
+            </span>
+            {p.featured && (
+              <span className="rounded-full bg-primary px-3 py-1 text-[11px] font-semibold text-primary-foreground">
+                นโยบายหลัก
+              </span>
+            )}
+          </div>
+          <h3 className="mt-3 text-lg font-bold leading-snug sm:text-xl">{p.title}</h3>
+          <p className="mt-2 text-base leading-relaxed text-white/65">{p.summary}</p>
+        </div>
+      </div>
+
+      {open && (
+        <div className="mt-5 space-y-5 border-t border-white/10 pt-5 text-base leading-relaxed">
+          <Block icon={TriangleAlert} title="ปัญหาที่พบ">
+            <p className="text-white/70">{p.problem}</p>
+          </Block>
+          <Block icon={Target} title="ทำอย่างไร">
+            <ul className="space-y-2">
+              {p.how.map((h) => (
+                <li key={h} className="flex gap-3 text-white/70">
+                  <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </Block>
+          <Block icon={Users} title="ใครได้ประโยชน์">
+            <p className="text-white/70">{p.benefit}</p>
+          </Block>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Small icon={Clock} label="ระยะเวลา" value={p.duration} />
+            <Small icon={Banknote} label="งบประมาณ" value={p.budget} />
+          </div>
+        </div>
+      )}
+
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        className="arrow-move mt-5 inline-flex items-center gap-2 self-start text-sm font-semibold text-primary"
+      >
+        {open ? (
+          <>
+            ย่อรายละเอียด <X size={15} />
+          </>
+        ) : (
+          <>
+            ดูรายละเอียด <ArrowRight size={15} />
+          </>
+        )}
+      </button>
+    </article>
+  );
+}
+
+function Block({
+  icon: Icon,
+  title,
+  children,
+}: {
+  icon: typeof Target;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <p className="eyebrow mb-2 flex items-center gap-2 text-primary">
+        <Icon size={13} /> {title}
+      </p>
+      {children}
+    </div>
+  );
+}
+
+function Small({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: typeof Clock;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-ink px-4 py-3">
+      <p className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-white/40">
+        <Icon size={12} /> {label}
+      </p>
+      <p className="mt-1.5 text-sm text-white/80">{value}</p>
+    </div>
   );
 }
