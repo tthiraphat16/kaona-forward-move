@@ -5,8 +5,8 @@ export function MemberPhoto({
   className = "",
 }: {
   name: string;
-  photo?: string;
-  number?: string;
+  photo?: string | undefined;
+  number?: string | undefined;
   className?: string;
 }) {
   const initial = name.replace(/^(นาย|นางสาว|นาง)\s*/, "").charAt(0);
