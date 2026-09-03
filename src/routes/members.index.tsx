@@ -89,14 +89,14 @@ function Page() {
         <div className="mx-auto max-w-[1400px]">
           <Reveal>
             <p className="eyebrow text-primary">Party members</p>
-            <h2 className="display mt-3 text-3xl sm:text-4xl">คณะทำงานของพรรค</h2>
+            <h2 className="display mt-3 text-3xl sm:text-4xl">สมาชิกพรรค 15 คน</h2>
             <p className="mt-3 max-w-xl text-sm text-white/50">
-              * ข้อมูลตัวอย่างระหว่างรอข้อมูลจริงและรูปถ่ายของสมาชิกแต่ละคน
+              * ช่องที่ยังว่างคือรายชื่อที่รอประกาศอย่างเป็นทางการ
             </p>
           </Reveal>
           <div className="mt-8 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
             {members.map((m, i) => (
-              <Reveal key={m.slug} delay={i * 70} className="bg-ink">
+              <Reveal key={m.slug} delay={Math.min(i, 8) * 60} className="bg-ink">
                 <Link
                   to="/members/$slug"
                   params={{ slug: m.slug }}
@@ -110,10 +110,16 @@ function Page() {
                   />
                   <div className="flex flex-1 flex-col p-6">
                     <p className="eyebrow text-primary">{m.position}</p>
-                    <p className="display mt-2 text-2xl">{m.name}</p>
-                    <p className="mt-1 text-sm text-white/50">
-                      {m.classroom} · {m.program}
+                    <p
+                      className={`display mt-2 text-2xl ${m.placeholder ? "text-white/35" : ""}`}
+                    >
+                      {m.name}
                     </p>
+                    {(m.classroom || m.program) && (
+                      <p className="mt-1 text-sm text-white/50">
+                        {[m.classroom, m.program].filter(Boolean).join(" · ")}
+                      </p>
+                    )}
                     <span className="arrow-move mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary">
                       ดูประวัติ <ArrowRight size={15} />
                     </span>
