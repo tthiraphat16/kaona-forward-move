@@ -71,7 +71,7 @@ export function Header() {
             </nav>
             <Link
               to="/policies"
-              className="arrow-move hidden items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-orange-deep lg:inline-flex"
+              className="arrow-move hidden items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep lg:inline-flex"
             >
               ดูนโยบาย <ArrowRight size={16} />
             </Link>
