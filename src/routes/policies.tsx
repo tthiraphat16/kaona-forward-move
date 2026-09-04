@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
-  Banknote,
   Clock,
   LayoutGrid,
   ListChecks,
@@ -251,10 +250,7 @@ function PolicyCard({
           <Block icon={Users} title="ใครได้ประโยชน์">
             <p className="text-white/70">{p.benefit}</p>
           </Block>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <Small icon={Clock} label="ระยะเวลา" value={p.duration} />
-            <Small icon={Banknote} label="งบประมาณ" value={p.budget} />
-          </div>
+          <Small icon={Clock} label="ระยะเวลา" value={p.duration} />
         </div>
       )}
 
