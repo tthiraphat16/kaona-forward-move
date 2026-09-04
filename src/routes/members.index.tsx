@@ -90,9 +90,7 @@ function Page() {
           <Reveal>
             <p className="eyebrow text-primary">Party members</p>
             <h2 className="display mt-3 text-3xl sm:text-4xl">สมาชิกพรรค 15 คน</h2>
-            <p className="mt-3 max-w-xl text-sm text-white/50">
-              * ช่องที่ยังว่างคือรายชื่อที่รอประกาศอย่างเป็นทางการ
-            </p>
+
           </Reveal>
           <div className="mt-8 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
             {members.map((m, i) => (
