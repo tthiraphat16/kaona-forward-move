@@ -61,18 +61,14 @@ function LeaderProfile({ leader: l }: { leader: Leader }) {
   const num = l.order.replace(/^0/, "");
 
   return (
-    <section id={l.slug} className="scroll-mt-16 bg-ink text-white">
-      {/* Orange name band */}
-      <div className="bg-primary px-5 py-7 text-center text-primary-foreground sm:px-8 sm:py-9">
-        <Reveal>
-          <p className="text-base font-semibold sm:text-xl">{l.role}</p>
-          <h2 className="display mt-1 text-[8vw] leading-[1.05] sm:text-5xl">{l.name}</h2>
-        </Reveal>
-      </div>
-
-      {/* Portrait with oversized number */}
-      <Reveal>
-        <div className="relative mx-auto flex max-w-[900px] items-end justify-center overflow-hidden px-4 pt-8 sm:pt-12">
+    <section id={l.slug} className="relative scroll-mt-0 bg-ink text-white">
+      {/* Sticky hero: name band + portrait stay pinned while the bio scrolls over */}
+      <div className="sticky top-0 z-0 flex h-screen flex-col overflow-hidden">
+        <div className="bg-primary px-5 py-5 text-center text-primary-foreground sm:px-8 sm:py-7">
+          <p className="text-sm font-semibold sm:text-xl">{l.role}</p>
+          <h2 className="display mt-1 text-[7vw] leading-[1.05] sm:text-5xl">{l.name}</h2>
+        </div>
+        <div className="relative flex flex-1 items-end justify-center overflow-hidden px-4">
           <span
             aria-hidden
             className="display pointer-events-none absolute bottom-0 left-1/2 z-0 -translate-x-[115%] text-[42vw] leading-[0.75] text-primary sm:text-[24rem]"
@@ -83,12 +79,12 @@ function LeaderProfile({ leader: l }: { leader: Leader }) {
             src={l.photo}
             alt={`${l.role} ${l.name}`}
             loading="lazy"
-            className="relative z-10 max-h-[70vh] w-auto object-contain"
+            className="relative z-10 h-full w-auto max-w-full object-contain object-bottom"
           />
         </div>
-      </Reveal>
+      </div>
 
-      <div className="mx-auto max-w-[860px] px-5 pb-24 pt-10 sm:px-8 sm:pb-28">
+      <div className="relative z-10 mx-auto max-w-[860px] bg-ink px-5 pb-24 pt-14 shadow-[0_-40px_60px_-20px_rgba(0,0,0,0.8)] sm:px-8 sm:pb-28">
         {l.motto && (
           <Reveal>
             <p className="text-center text-xl font-semibold leading-relaxed text-primary sm:text-2xl">
