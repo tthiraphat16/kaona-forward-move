@@ -104,6 +104,27 @@ function Page() {
             </dl>
           </Reveal>
 
+          {m.education && m.education.length > 0 && (
+            <Section title="การศึกษา" items={m.education} />
+          )}
+          {m.awards && m.awards.length > 0 && (
+            <Section title="ผลงานและรางวัลที่ภาคภูมิใจ" items={m.awards} />
+          )}
+          {m.skills && m.skills.length > 0 && (
+            <Section title="ความสามารถพิเศษ" items={m.skills} />
+          )}
+          {m.expectation && m.expectation.length > 0 && (
+            <Reveal>
+              <h2 className="mt-10 text-xl font-bold text-primary sm:text-2xl">
+                ความคาดหวังต่อพรรคและการเลือกตั้ง
+              </h2>
+              <div className="mt-4 space-y-4 text-lg leading-relaxed text-white/80">
+                {m.expectation.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </Reveal>
+          )}
           {m.duties && m.duties.length > 0 && (
             <Section title="หน้าที่ในพรรค" items={m.duties} />
           )}
