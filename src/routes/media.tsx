@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
 import { BallotBadge } from "@/components/BallotBadge";
-import logo from "@/assets/kaona-logo.png.asset.json";
+
 
 const TITLE = "สื่อและภาพกิจกรรม | พรรคก้าวหน้า KAONA PARTY";
 const DESC = "รวมสื่อหาเสียง โปสเตอร์ และภาพกิจกรรมของพรรคก้าวหน้า ปีการศึกษา 2569";
@@ -45,7 +45,7 @@ function Page() {
         <div className="mx-auto grid max-w-[1400px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <Reveal>
             <figure className="flex aspect-square flex-col items-center justify-center border border-white/12 bg-ink-soft p-8">
-              <img src={logo.url} alt="โลโก้พรรคก้าวหน้า" className="h-32 w-32 object-contain" loading="lazy" />
+              <img src="/kaona-logo.PNG" alt="โลโก้พรรคก้าวหน้า" className="h-32 w-32 object-contain" loading="lazy" />
               <figcaption className="eyebrow mt-6 text-white/40">Official logo</figcaption>
             </figure>
           </Reveal>
