@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { BallotBadge } from "@/components/BallotBadge";
-import logo from "@/assets/kaona-logo.png.asset.json";
+
 
 const TITLE = "รู้จักพรรคก้าวหน้า | KAONA PARTY";
 const DESC =
@@ -53,7 +53,7 @@ function Page() {
         <div className="relative mx-auto max-w-[1400px]">
           <Reveal>
             <img
-              src={logo.url}
+              src="/kaona-logo.PNG"
               alt="โลโก้พรรคก้าวหน้า"
               width={80}
               height={80}
