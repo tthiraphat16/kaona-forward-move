@@ -23,7 +23,7 @@ export const leaders: Leader[] = [
     name: "นาย สิทธิพล นาคนวล",
     role: "หัวหน้าพรรคก้าวหน้า",
     roleEn: "PARTY LEADER",
-    photo: "/leader-sittiphon.jpg"
+    photo: "/leader-sittiphon.jpg",
     education: [
       "สำเร็จการศึกษาระดับชั้นอนุบาล โรงเรียนไตรภูมิวิทยา",
       "สำเร็จการศึกษาระดับชั้นประถมศึกษา โรงเรียนไตรภูมิวิทยา",
@@ -51,7 +51,7 @@ export const leaders: Leader[] = [
     nickname: "โฟกัส",
     role: "รองหัวหน้าพรรค คนที่ 1",
     roleEn: "DEPUTY LEADER I",
-photo: "/deputy-phuwadet.PNG"
+photo: "/deputy-phuwadet.PNG",
     education: [
       "ระดับก่อนประถมศึกษา อ.1-อ.2 โรงเรียนบ้านท่าขนอน และ อ.2-อ.3 โรงเรียนวัดชนสังขรณพิจิตร",
       "ระดับประถมศึกษา โรงเรียนบ้านทวดทอง",
@@ -77,7 +77,7 @@ photo: "/deputy-phuwadet.PNG"
     nickname: "เตย",
     role: "รองหัวหน้าพรรค คนที่ 2",
     roleEn: "DEPUTY LEADER II",
-photo: "/deputy-hathaithip.JPG"
+photo: "/deputy-hathaithip.JPG",
     education: [
       "ระดับประถมศึกษาปีที่ 1-6 โรงเรียนบ้านทวดทอง",
       "ระดับมัธยมศึกษาตอนต้น โรงเรียนเมืองนครศรีธรรมราช ห้อง 3",
