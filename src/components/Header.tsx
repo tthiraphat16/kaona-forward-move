@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
-import logo from "@/assets/kaona-logo.png.asset.json";
+
 
 export const NAV = [
   { label: "พรรค", to: "/about" },
@@ -42,7 +42,7 @@ export function Header() {
         <div className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:px-8">
           <Link to="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
             <img
-              src={logo.url}
+src="/kaona-logo.PNG"
               alt="โลโก้พรรคก้าวหน้า"
               className="h-9 w-9 shrink-0 object-contain"
               width={36}
