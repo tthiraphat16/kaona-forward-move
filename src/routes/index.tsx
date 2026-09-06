@@ -5,7 +5,7 @@ import { featuredPolicies, POLICY_COUNT } from "@/data/policies";
 import { BallotBadge } from "@/components/BallotBadge";
 import { LeadersOverview, LeaderProfiles } from "@/components/Leaders";
 
-import logo from "@/assets/kaona-logo.png.asset.json";
+
 
 const TITLE = "พรรคก้าวหน้า | KAONA PARTY";
 const DESC =
@@ -61,7 +61,7 @@ function Hero() {
       <div className="relative mx-auto w-full max-w-[1400px] px-5 pb-16 pt-32 sm:px-8 sm:pb-24">
         <Reveal>
           <img
-            src={logo.url}
+src="/kaona-logo.PNG"
             alt="โลโก้พรรคก้าวหน้า"
             width={72}
             height={72}
