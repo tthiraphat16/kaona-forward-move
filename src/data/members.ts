@@ -1,19 +1,3 @@
-import m04 from "@/assets/member-04.jpg.asset.json";
-import m05 from "@/assets/member-05.jpg.asset.json";
-import m06 from "@/assets/member-06.jpg.asset.json";
-import m07 from "@/assets/member-07.jpg.asset.json";
-import m08 from "@/assets/member-08.jpg.asset.json";
-import m09 from "@/assets/member-09.jpg.asset.json";
-import m10 from "@/assets/member-10.jpg.asset.json";
-import m11 from "@/assets/member-11.jpg.asset.json";
-import m12 from "@/assets/member-12.jpg.asset.json";
-import m13 from "@/assets/member-13.jpg.asset.json";
-import m14 from "@/assets/member-14.jpg.asset.json";
-import m15 from "@/assets/member-15.jpg.asset.json";
-import m16 from "@/assets/member-16.jpg.asset.json";
-import m17 from "@/assets/member-17.jpg.asset.json";
-import m18 from "@/assets/member-18.jpg.asset.json";
-
 export interface Member {
   slug: string;
   no: string;
@@ -51,7 +35,7 @@ const roster: RosterEntry[] = [
   {
     name: "นางสาว วิรัลพัชร จันทพันธ์",
     nickname: "น้ำเพชร",
-    photo: m04.url,
+    photo: /member-4.PNG
     education: [
       "ระดับประถมศึกษา โรงเรียนบ้านกุยเหนือ",
       "ระดับมัธยมศึกษาตอนต้น โรงเรียนช้างกลางประชานุกูล",
@@ -65,7 +49,7 @@ const roster: RosterEntry[] = [
   {
     name: "นาย โอฬาร พุทธรัตน์",
     nickname: "เหลียง",
-    photo: m05.url,
+    photo: /member-5.jpg
     education: [
       "ระดับอนุบาล โรงเรียนพริ้มพิทยาณุสรณ์",
       "ระดับประถมศึกษา โรงเรียนบ้านทวดทอง",
@@ -85,7 +69,7 @@ const roster: RosterEntry[] = [
   {
     name: "นาย ธีรภัทร ร่างมณี",
     nickname: "ก้อง",
-    photo: m06.url,
+    photo: /member-6.PNG
     quote: "It’s never too late to start again",
     education: [
       "ระดับอนุบาล 1-3 โรงเรียนตันติวัตร",
@@ -113,7 +97,7 @@ const roster: RosterEntry[] = [
   {
     name: "นางสาว กฤติญา แจ้งแก้ว",
     nickname: "น้ำหวาน",
-    photo: m07.url,
+    photo: /member-7.JPG
     education: ["ระดับมัธยมศึกษาตอนปลาย โรงเรียนเมืองนครศรีธรรมราช"],
     awards: ["ได้รับรางวัลกีฬาเปตอง"],
     skills: ["ดรัมเมเยอร์", "เล่นกีฬา"],
@@ -121,7 +105,7 @@ const roster: RosterEntry[] = [
   {
     name: "นางสาว ธัมมาวดี ผลอินทร์",
     nickname: "กิ่ง",
-    photo: m08.url,
+    photo: /member-8.JPG
     education: ["ระดับมัธยมศึกษาตอนปลาย โรงเรียนเมืองนครศรีธรรมราช"],
     awards: ["รองชนะเลิศอันดับ 2 การแข่งขันหัวหน้าหลีดเดอร์"],
     skills: ["เต้น", "มีความเป็นผู้นำ", "กล้าแสดงออก"],
@@ -132,7 +116,7 @@ const roster: RosterEntry[] = [
   {
     name: "นางสาว กชพรรณ กิจบันชา",
     nickname: "ฟะฟา",
-    photo: m09.url,
+    photo: /member-9.JPG
     education: [
       "ระดับมัธยมศึกษาตอนต้น โรงเรียนเมืองนครศรีธรรมราช",
       "ระดับมัธยมศึกษาตอนปลาย แผนการเรียนศิลป์-คำนวณ โรงเรียนเมืองนครศรีธรรมราช",
@@ -143,11 +127,11 @@ const roster: RosterEntry[] = [
       "ดิฉันคาดหวังว่าพรรคเราจะไม่ใช่พรรคที่ได้คะแนนเสียงน้อยที่สุด และขอให้ตัวเองและเพื่อน ๆ ที่มีใจรักอยากดำรงตำแหน่งสภานักเรียนได้ดั่งใจ และสมหวังทุกคน",
     ],
   },
-  { name: "นางสาว ธัญวรัตน์ นันทชัยพิทักษ์", photo: m10.url },
+  { name: "นางสาว ธัญวรัตน์ นันทชัยพิทักษ์", photo: /member-10.PNG },
   {
     name: "นางสาว วชิรญาณ์ ขุนรักษ์",
     nickname: "เกล",
-    photo: m11.url,
+    photo: /member-12.PNG,
     education: [
       "ระดับอนุบาล โรงเรียนเทศบาลบ้านสามกอง (ขุนวิเศษนุกูลกิจอุทิศ)",
       "ระดับประถมศึกษา 1-4 โรงเรียนเทศบาลบ้านสามกอง (ขุนวิเศษนุกูลกิจอุทิศ)",
@@ -159,7 +143,7 @@ const roster: RosterEntry[] = [
   {
     name: "นาย สุวพัฒน์ ฝอยทอง",
     nickname: "อาร์ม",
-    photo: m12.url,
+    photo: /member-11.PNG
     education: [
       "ระดับมัธยมศึกษาตอนต้น โรงเรียนเมืองนครศรีธรรมราช",
       "ระดับมัธยมศึกษาตอนปลาย แผนการเรียนวิทย์-คณิต โรงเรียนเมืองนครศรีธรรมราช",
@@ -172,7 +156,7 @@ const roster: RosterEntry[] = [
   {
     name: "นาย วีราทร แก้วชื่น",
     nickname: "นิว",
-    photo: m13.url,
+    photo: /member-13.JPG
     education: ["ปัจจุบันกำลังศึกษาชั้นมัธยมศึกษาปีที่ 5/5 โรงเรียนเมืองนครศรีธรรมราช"],
     awards: ["ดรัมเมเยอร์พรรคอัศนี ปีการศึกษา 2569", "การพูดสุนทรพจน์ถิ่นภาคใต้"],
     skills: ["ความกล้าแสดงออก", "ความอดทน", "ความใจเย็น"],
@@ -183,7 +167,7 @@ const roster: RosterEntry[] = [
   {
     name: "นาย กรวุฒิ ตะลึงสัตย์",
     nickname: "ต้นข้าว",
-    photo: m14.url,
+    photo: /member-14.PNG
     education: [
       "ระดับอนุบาล-ประถมศึกษา โรงเรียนวัดห้วยพระ",
       "ระดับมัธยมศึกษาตอนต้น โรงเรียนเมืองนครศรีธรรมราช",
@@ -198,7 +182,7 @@ const roster: RosterEntry[] = [
   {
     name: "นาย ปกรณ์เกียรติ สุทธิบูลย์",
     nickname: "กันต์",
-    photo: m15.url,
+    photo: /member-15.jpg
     education: [
       "ระดับประถมศึกษาปีที่ 1-6 โรงเรียนวัดหญ้าปล้อง",
       "ระดับมัธยมศึกษาปีที่ 1-3 โรงเรียนพรหมคีรีพิทยาคม",
@@ -213,11 +197,11 @@ const roster: RosterEntry[] = [
       "การทำงานในตำแหน่งสภานักเรียน: การนำนโยบายที่มีมาใช้จริง ลงมือทำจริง เพื่อพัฒนาโรงเรียนตามความหมายของชื่อพรรคก้าวหน้า",
     ],
   },
-  { name: "นางสาว อามีดะห์ อิสลาม", photo: m16.url },
+  { name: "นางสาว อามีดะห์ อิสลาม", photo: /member-16.PNG },
   {
     name: "นาย ณัฐพล ทองมี",
     nickname: "เฟรม",
-    photo: m17.url,
+    photo: /member-17.jpg
     education: ["ระดับมัธยมศึกษาตอนปลาย โรงเรียนเมืองนครศรีธรรมราช"],
     awards: ["เข้าร่วมแข่งขันโครงงานที่โรงเรียนเบญจมราชูทิศ"],
     expectation: ["คาดหวังให้ทุกคนเลือกพรรคก้าวหน้าเยอะ ๆ"],
@@ -225,7 +209,7 @@ const roster: RosterEntry[] = [
   {
     name: "นางสาว จันทิมา บรรจงเมือง",
     nickname: "ใบเตย",
-    photo: m18.url,
+    photo: /member-18.JPG
     education: [
       "สำเร็จการศึกษาระดับประถมศึกษา โรงเรียนบ้านทวดทอง",
       "ปัจจุบัน ระดับมัธยมศึกษาตอนปลาย โรงเรียนเมืองนครศรีธรรมราช",
