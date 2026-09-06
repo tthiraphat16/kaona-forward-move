@@ -23,7 +23,7 @@ export const leaders: Leader[] = [
     name: "นาย สิทธิพล นาคนวล",
     role: "หัวหน้าพรรคก้าวหน้า",
     roleEn: "PARTY LEADER",
-    photo: src="/leader-sittiphon.jpg"
+photo: "/leader-sittiphon.jpg",
     education: [
       "สำเร็จการศึกษาระดับชั้นอนุบาล โรงเรียนไตรภูมิวิทยา",
       "สำเร็จการศึกษาระดับชั้นประถมศึกษา โรงเรียนไตรภูมิวิทยา",
