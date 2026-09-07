@@ -176,7 +176,7 @@ function Page() {
             <Reveal>
               <div className="flex items-center justify-center bg-white p-12">
                 <img
-                  src={logo.url}
+src="/kaona-logo.PNG"
                   alt="โลโก้พรรคก้าวหน้า ลูกศรคู่พุ่งไปข้างหน้า"
                   width={220}
                   height={220}
