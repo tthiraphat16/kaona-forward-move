@@ -52,7 +52,7 @@ src="/kaona-logo.PNG"
               <span className="block truncate text-[15px] font-bold tracking-tight text-white">
                 พรรคก้าวหน้า
               </span>
-              <span className="eyebrow block text-[9px] text-primary">พูดจริง ทำจริง เปลี่ยนแปลงได้</span>
+              <span className="eyebrow block text-[9px] text-primary">KAONA PARTY</span>
             </span>
           </Link>
 
