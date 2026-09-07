@@ -89,7 +89,7 @@ src="/kaona-logo.PNG"
         </Reveal>
         <Reveal delay={280}>
           <div className="mt-10">
-            <p className="eyebrow mb-4 text-white/40">เลือกพรรคก้าวหน้า กากบาทที่เบอร์</p>
+            <p className="eyebrow mb-4 text-white/40">เลือกพรรคก้าวหน้า เข้าคูหากาเบอร์</p>
             <BallotBadge number="1" />
           </div>
         </Reveal>
