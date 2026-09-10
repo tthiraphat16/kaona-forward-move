@@ -53,7 +53,7 @@ function Page() {
         <div className="relative mx-auto max-w-[1400px]">
           <Reveal>
             <img
-              src="/kaona-logo.PNG"
+              src="/kaonaparty-green.PNG"
               alt="โลโก้พรรคก้าวหน้า"
               width={80}
               height={80}
