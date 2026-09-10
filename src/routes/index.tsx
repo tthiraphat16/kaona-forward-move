@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { Reveal, CountUp } from "@/components/Reveal";
 import { featuredPolicies, POLICY_COUNT } from "@/data/policies";
@@ -26,22 +27,53 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const [showAnnouncement, setShowAnnouncement] = useState(true);
+
   return (
-    <main>
-      <Hero />
-      <Believe />
-      <LeadersOverview />
-      <LeaderProfiles />
-      <About />
-      <Vision />
-      <PolicyHero />
-      <Featured />
-      <WhyKaona />
-      <CTA />
-    </main>
+    <>
+      <main>
+        <Hero />
+        <Believe />
+        <LeadersOverview />
+        <LeaderProfiles />
+        <About />
+        <Vision />
+        <PolicyHero />
+        <Featured />
+        <WhyKaona />
+        <CTA />
+      </main>
+
+      {/* Announcement Popup — เฉพาะหน้า Home */}
+      {showAnnouncement && (
+        <div
+          className="announcement-overlay"
+          onClick={() => setShowAnnouncement(false)}
+        >
+          <div
+            className="announcement-popup"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="announcement-close"
+              onClick={() => setShowAnnouncement(false)}
+              aria-label="ปิดประกาศ"
+            >
+              ×
+            </button>
+
+            <img
+              src="/announcement.jpg"
+              alt="ประกาศพรรคก้าวหน้า"
+              className="announcement-image"
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
-
 
 function Hero() {
   return (
