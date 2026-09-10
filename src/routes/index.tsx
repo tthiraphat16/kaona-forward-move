@@ -64,7 +64,7 @@ function Home() {
             </button>
 
             <img
-              src="/announcement.jpg"
+              src="/announcement.JPG"
               alt="ประกาศพรรคก้าวหน้า"
               className="announcement-image"
             />
